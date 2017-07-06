@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import tkinter.font as tkfont
 import csv
 
 with open('compounds.csv', 'r') as f:
@@ -123,6 +124,11 @@ class PageTwo(tk.Frame):
         button2.pack()
 
 class AutocompleteCombobox(ttk.Combobox):
+
+        def on_combo_configure(event):
+            width = 20
+            style = ttk.Style()
+            style.configure('TCombobox', postoffset=(0, 0, width, 0))
 
         def set_completion_list(self, completion_list):
             """Use our completion list as our drop down selection menu, arrows move through menu."""
