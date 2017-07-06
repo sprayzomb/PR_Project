@@ -5,8 +5,6 @@ from tkinter import ttk
 
 __version__ = "1.1"
 
-# I may have broken the unicode...
-tkinter_umlauts=['odiaeresis', 'adiaeresis', 'udiaeresis', 'Odiaeresis', 'Adiaeresis', 'Udiaeresis', 'ssharp']
 
 class AutocompleteCombobox(ttk.Combobox):
 
@@ -73,6 +71,8 @@ def test(test_list):
         root.bind('<Control-q>', lambda event=None: root.destroy())
         root.mainloop()
 
+
 if __name__ == '__main__':
         test_list = ('apple', 'banana', 'CranBerry', 'dogwood', 'alpha', 'Acorn', 'Anise' )
+        print(test_list)
         test(test_list)
