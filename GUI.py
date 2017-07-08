@@ -109,22 +109,54 @@ class PageTwo(tk.Frame):
         label = tk.Label(self, text="Page Two", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        self.addButton = ttk.Button(self, text="Back to Home",
-                            command=lambda: [controller.show_frame(StartPage)])
+        self.addButton = ttk.Button(self, text="Add")
+                            #command=self.addOnDouble)
         self.addButton.pack()
+
+        self.removeButton = ttk.Button(self, text="Remove",
+                            command=self.removeWithButton)
+        self.removeButton.pack()
+
+        self.compound_box = tk.Listbox(self, width=45, height=15)
+        self.compound_box.bind('<Double-Button-1>', self.removeOnDouble)
+        self.compound_box.pack()
 
         #button2 = ttk.Button(self, text="To Properties",
         #                    command=lambda: [controller.show_frame(Properties)])
         #button2.pack()
 
+        self.selected_compound_list=[]
         self.create_widgets()
+
+    def removeOnDouble(self,event):
+        widget = event.widget
+        selection = widget.curselection()
+        value = widget.get(selection[0])
+        self.compound_box.delete(selection[0])
+        self.selected_compound_list.remove(value)
+        print(self.selected_compound_list)
+
+    #def removeWithButton(self):
+    #    selection = self.compound_box.curselection()
+    #    value = widget.get(selection[0])
+    #    self.compound_box.delete(selection[0])
+    #    self.selected_compound_list.remove(selection[0])
+    #    print(self.selected_compound_list)
+
+    def addOnDouble(self,event):
+        widget = event.widget
+        selection = widget.curselection()
+        value = widget.get(selection[0])
+        self.compound_box.insert(tk.END, value)
+        self.selected_compound_list.append(value)
+        print(self.selected_compound_list)
 
     def create_widgets(self):
         self.search_var = tk.StringVar()
         self.search_var.trace("w", lambda name, index, mode: self.update_list())
         self.entry = tk.Entry(self, textvariable=self.search_var, width=13)
         self.lbox = tk.Listbox(self, width=45, height=15)
-        self.lbox.bind('<Double-Button-1>', lambda x: self.addButton.invoke())
+        self.lbox.bind('<Double-Button-1>', self.addOnDouble)
         self.entry.pack()
         self.lbox.pack()
 
@@ -134,7 +166,6 @@ class PageTwo(tk.Frame):
 
     def update_list(self):
         search_term = self.search_var.get()
-
 
         # Just a generic list to populate the listbox
         lbox_list = compound_list
