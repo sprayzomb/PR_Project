@@ -167,7 +167,7 @@ class PageTwo(tk.Frame):
     def update_list(self):
         search_term = self.search_var.get()
 
-        # populate the listbox
+        # Populate the listbox
         lbox_list = compound_list
 
         self.lbox.delete(0, tk.END)
