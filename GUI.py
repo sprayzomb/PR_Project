@@ -113,8 +113,8 @@ class PageTwo(tk.Frame):
                             #command=self.addOnDouble)
         self.addButton.pack()
 
-        self.removeButton = ttk.Button(self, text="Remove",
-                            command=self.removeWithButton)
+        self.removeButton = ttk.Button(self, text="Remove")
+                            #command=self.removeWithButton)
         self.removeButton.pack()
 
         self.compound_box = tk.Listbox(self, width=45, height=15)
@@ -134,6 +134,7 @@ class PageTwo(tk.Frame):
         value = widget.get(selection[0])
         self.compound_box.delete(selection[0])
         self.selected_compound_list.remove(value)
+
         print(self.selected_compound_list)
 
     #def removeWithButton(self):
@@ -148,7 +149,8 @@ class PageTwo(tk.Frame):
         selection = widget.curselection()
         value = widget.get(selection[0])
         self.compound_box.insert(tk.END, value)
-        self.selected_compound_list.append(value)
+
+        self.selected_compound_list.remove(value)
         print(self.selected_compound_list)
 
     def create_widgets(self):
@@ -168,11 +170,11 @@ class PageTwo(tk.Frame):
         search_term = self.search_var.get()
 
         # Populate the listbox
-        lbox_list = compound_list
+        self.lbox_list = compound_list
 
         self.lbox.delete(0, tk.END)
 
-        for item in lbox_list:
+        for item in self.lbox_list:
             if search_term.lower() in item.lower():
                 self.lbox.insert(tk.END, item)
 
