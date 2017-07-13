@@ -188,9 +188,6 @@ class PageTwo(tk.Frame):
         self.compound_6_label_box.config(state=tk.DISABLED)
         return
 
-    def pull_data(name, column):
-        return table_df.loc[name, column]
-
     def removeOnDouble(self,event):
         widget = event.widget
         selection = widget.curselection()
