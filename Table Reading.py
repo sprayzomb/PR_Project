@@ -9,4 +9,5 @@ table_df.columns = table_df.columns.astype(str)
 def pull_data(name, column):
     return table_df.loc[name, column]
 
-print(pull_data("METHANE", "Tc(K)"))
+name="METHANE"
+print(pull_data(name, "Tc(K)"))

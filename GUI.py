@@ -1,7 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
+import pandas as pd
 import tkinter.font as tkfont
 import csv
+#import numpy as np
+
+filename = "proptable.csv"
+
+table_df = pd.read_csv(filename).set_index("Unnamed: 0")
+table_df.index.name = None
+table_df.columns = table_df.columns.astype(str)
 
 with open('compounds.csv', 'r') as f:
   reader = csv.reader(f)
@@ -75,58 +83,113 @@ class Properties(tk.Frame):
                             command=lambda: [controller.show_frame(PageTwo)])
         button2.pack()
 
-        #compound_1 = tk.StringVar()
-        #box_1 = ttk.Combobox(self, textvariable=compound_1,
-        #                     state='readonly', width=30)
-        #box_1['values'] = (compound_list)
-        #box_1.current(0)
-        #box_1.pack()
-        box_1 = AutocompleteCombobox(self, width=25)
-        box_1.set_completion_list(compound_list)
-        box_1.pack()
-        box_1.focus_set()
-
-        box_2 = AutocompleteCombobox(self, width=25)
-        box_2.set_completion_list(compound_list)
-        box_2.pack()
-        box_2.focus_set()
-
-        box_3 = AutocompleteCombobox(self, width=25)
-        box_3.set_completion_list(compound_list)
-        box_3.pack()
-        box_3.focus_set()
-
-        box_4 = AutocompleteCombobox(self, width=25)
-        box_4.set_completion_list(compound_list)
-        box_4.pack()
-        box_4.focus_set()
-
-
 class PageTwo(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Page Two", font=LARGE_FONT)
-        label.pack(pady=10, padx=10)
+        #label = tk.Label(self, text="Page Two", font=LARGE_FONT)
+        #label.grid(column=1, row=1)
 
         self.addButton = ttk.Button(self, text="Add")
                             #command=self.addOnDouble)
-        self.addButton.pack()
+        self.addButton.grid(column=6, row=3)
 
         self.removeButton = ttk.Button(self, text="Remove")
                             #command=self.removeWithButton)
-        self.removeButton.pack()
+        self.removeButton.grid(column=6, row=4)
+
+        self.createButton = ttk.Button(self, text="Create", command=lambda: self.updateLabels())
+        self.createButton.grid(column=11, row=7)
 
         self.compound_box = tk.Listbox(self, width=45, height=15)
         self.compound_box.bind('<Double-Button-1>', self.removeOnDouble)
-        self.compound_box.pack()
+        self.compound_box.grid(column=7, row=2, columnspan=5, rowspan=5)
 
-        #button2 = ttk.Button(self, text="To Properties",
-        #                    command=lambda: [controller.show_frame(Properties)])
-        #button2.pack()
+        ttk.Separator(self, orient='horizontal').grid(column=1, row=8, columnspan=11, sticky='ew')
+
+        label = tk.Label(self, text="Compound Name")
+        label.grid(column=1, row=9)
+
+        self.compound_1_label = tk.StringVar(value="")
+        self.compound_1_label_box = tk.Entry(self, textvariable=self.compound_1_label)
+        self.compound_1_label_box.config(state=tk.DISABLED)
+        self.compound_1_label_box.config(disabledbackground='white')
+        self.compound_1_label_box.config(disabledforeground='black')
+        self.compound_1_label_box.grid(column=1, row=10)
+
+        self.compound_2_label = tk.StringVar(value="")
+        self.compound_2_label_box = tk.Entry(self, textvariable=self.compound_2_label)
+        self.compound_2_label_box.config(state=tk.DISABLED)
+        self.compound_2_label_box.config(disabledbackground='white')
+        self.compound_2_label_box.config(disabledforeground='black')
+        self.compound_2_label_box.grid(column=1, row=11)
+
+        self.compound_3_label = tk.StringVar(value="")
+        self.compound_3_label_box = tk.Entry(self, textvariable=self.compound_3_label)
+        self.compound_3_label_box.config(state=tk.DISABLED)
+        self.compound_3_label_box.config(disabledbackground='white')
+        self.compound_3_label_box.config(disabledforeground='black')
+        self.compound_3_label_box.grid(column=1, row=12)
+
+        self.compound_4_label = tk.StringVar(value="")
+        self.compound_4_label_box = tk.Entry(self, textvariable=self.compound_4_label)
+        self.compound_4_label_box.config(state=tk.DISABLED)
+        self.compound_4_label_box.config(disabledbackground='white')
+        self.compound_4_label_box.config(disabledforeground='black')
+        self.compound_4_label_box.grid(column=1, row=13)
+
+        self.compound_5_label = tk.StringVar(value="")
+        self.compound_5_label_box = tk.Entry(self, textvariable=self.compound_5_label)
+        self.compound_5_label_box.config(state=tk.DISABLED)
+        self.compound_5_label_box.config(disabledbackground='white')
+        self.compound_5_label_box.config(disabledforeground='black')
+        self.compound_5_label_box.grid(column=1, row=14)
+
+        self.compound_6_label = tk.StringVar(value="")
+        self.compound_6_label_box = tk.Entry(self, textvariable=self.compound_6_label)
+        self.compound_6_label_box.config(state=tk.DISABLED)
+        self.compound_6_label_box.config(disabledbackground='white')
+        self.compound_6_label_box.config(disabledforeground='black')
+        self.compound_6_label_box.grid(column=1, row=15)
+
 
         self.selected_compound_list=[]
         self.create_widgets()
+
+    def updateLabels(self):
+        self.compound_1_label_box.config(state=tk.NORMAL)
+        self.compound_1_label_box.delete(0, tk.END)
+        self.compound_1_label_box.insert(0, self.selected_compound_list[0])
+        self.compound_1_label_box.config(state=tk.DISABLED)
+
+        self.compound_2_label_box.config(state=tk.NORMAL)
+        self.compound_2_label_box.delete(0, tk.END)
+        self.compound_2_label_box.insert(0, self.selected_compound_list[1])
+        self.compound_2_label_box.config(state=tk.DISABLED)
+
+        self.compound_3_label_box.config(state=tk.NORMAL)
+        self.compound_3_label_box.delete(0, tk.END)
+        self.compound_3_label_box.insert(0, self.selected_compound_list[2])
+        self.compound_3_label_box.config(state=tk.DISABLED)
+
+        self.compound_4_label_box.config(state=tk.NORMAL)
+        self.compound_4_label_box.delete(0, tk.END)
+        self.compound_4_label_box.insert(0, self.selected_compound_list[3])
+        self.compound_4_label_box.config(state=tk.DISABLED)
+
+        self.compound_5_label_box.config(state=tk.NORMAL)
+        self.compound_5_label_box.delete(0, tk.END)
+        self.compound_5_label_box.insert(0, self.selected_compound_list[4])
+        self.compound_5_label_box.config(state=tk.DISABLED)
+
+        self.compound_6_label_box.config(state=tk.NORMAL)
+        self.compound_6_label_box.delete(0, tk.END)
+        self.compound_6_label_box.insert(0, self.selected_compound_list[5])
+        self.compound_6_label_box.config(state=tk.DISABLED)
+        return
+
+    def pull_data(name, column):
+        return table_df.loc[name, column]
 
     def removeOnDouble(self,event):
         widget = event.widget
@@ -134,23 +197,15 @@ class PageTwo(tk.Frame):
         value = widget.get(selection[0])
         self.compound_box.delete(selection[0])
         self.selected_compound_list.remove(value)
-
         print(self.selected_compound_list)
-
-    #def removeWithButton(self):
-    #    selection = self.compound_box.curselection()
-    #    value = widget.get(selection[0])
-    #    self.compound_box.delete(selection[0])
-    #    self.selected_compound_list.remove(selection[0])
-    #    print(self.selected_compound_list)
+        #print(self.selected_compound_list[0])
 
     def addOnDouble(self,event):
         widget = event.widget
         selection = widget.curselection()
         value = widget.get(selection[0])
         self.compound_box.insert(tk.END, value)
-
-        self.selected_compound_list.remove(value)
+        self.selected_compound_list.append(value)
         print(self.selected_compound_list)
 
     def create_widgets(self):
@@ -159,8 +214,8 @@ class PageTwo(tk.Frame):
         self.entry = tk.Entry(self, textvariable=self.search_var, width=13)
         self.lbox = tk.Listbox(self, width=45, height=15)
         self.lbox.bind('<Double-Button-1>', self.addOnDouble)
-        self.entry.pack()
-        self.lbox.pack()
+        self.entry.grid(column=2, row=1)
+        self.lbox.grid(column=1, row=2, columnspan=5, rowspan=5)
 
         # Function for updating the list/doing the search.
         # It needs to be called here to populate the listbox.
@@ -245,6 +300,15 @@ class AutocompleteCombobox(ttk.Combobox):
                 self.autocomplete()
                 # No need for up/down, we'll jump to the popup
                 # list at the position of the autocompletion
+
+
+#class TableReading():
+#
+#    def pull_data(name, column):
+#        return table_df.loc[name, column]
+#
+#    omega = np.array([pull_data(f, "Tc(K)") for f in PageTwo.selected_compound_list])
+#    print(omega)
 
 app = PR()
 app.mainloop()
