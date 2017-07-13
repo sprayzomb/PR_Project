@@ -109,83 +109,92 @@ class PageTwo(tk.Frame):
 
         label = tk.Label(self, text="Compound Name")
         label.grid(column=1, row=9)
+#Compound names will be transfered below boxes.
+        self.compound_1_name = tk.StringVar(value="")
+        self.compound_1_name_box = tk.Entry(self, textvariable=self.compound_1_name)
+        self.compound_1_name_box.config(state=tk.DISABLED)
+        self.compound_1_name_box.config(disabledbackground='white')
+        self.compound_1_name_box.config(disabledforeground='black')
+        self.compound_1_name_box.grid(column=1, row=10)
 
-        self.compound_1_label = tk.StringVar(value="")
-        self.compound_1_label_box = tk.Entry(self, textvariable=self.compound_1_label)
+        self.compound_2_name = tk.StringVar(value="")
+        self.compound_2_name_box = tk.Entry(self, textvariable=self.compound_2_name)
+        self.compound_2_name_box.config(state=tk.DISABLED)
+        self.compound_2_name_box.config(disabledbackground='white')
+        self.compound_2_name_box.config(disabledforeground='black')
+        self.compound_2_name_box.grid(column=1, row=11)
+
+        self.compound_3_name = tk.StringVar(value="")
+        self.compound_3_name_box = tk.Entry(self, textvariable=self.compound_3_name)
+        self.compound_3_name_box.config(state=tk.DISABLED)
+        self.compound_3_name_box.config(disabledbackground='white')
+        self.compound_3_name_box.config(disabledforeground='black')
+        self.compound_3_name_box.grid(column=1, row=12)
+
+        self.compound_4_name = tk.StringVar(value="")
+        self.compound_4_name_box = tk.Entry(self, textvariable=self.compound_4_name)
+        self.compound_4_name_box.config(state=tk.DISABLED)
+        self.compound_4_name_box.config(disabledbackground='white')
+        self.compound_4_name_box.config(disabledforeground='black')
+        self.compound_4_name_box.grid(column=1, row=13)
+
+        self.compound_5_name = tk.StringVar(value="")
+        self.compound_5_name_box = tk.Entry(self, textvariable=self.compound_5_name)
+        self.compound_5_name_box.config(state=tk.DISABLED)
+        self.compound_5_name_box.config(disabledbackground='white')
+        self.compound_5_name_box.config(disabledforeground='black')
+        self.compound_5_name_box.grid(column=1, row=14)
+
+        self.compound_6_name = tk.StringVar(value="")
+        self.compound_6_name_box = tk.Entry(self, textvariable=self.compound_6_name)
+        self.compound_6_name_box.config(state=tk.DISABLED)
+        self.compound_6_name_box.config(disabledbackground='white')
+        self.compound_6_name_box.config(disabledforeground='black')
+        self.compound_6_name_box.grid(column=1, row=15)
+# Compound names will be transfered above boxes.
+
+# Mole fractions will be entered below boxes.
+        self.compound_1_mole_fraction = tk.StringVar(value="")
+        self.compound_1_label_box = tk.Entry(self, textvariable=self.compound_1_mole_fraction)
         self.compound_1_label_box.config(state=tk.DISABLED)
         self.compound_1_label_box.config(disabledbackground='white')
         self.compound_1_label_box.config(disabledforeground='black')
-        self.compound_1_label_box.grid(column=1, row=10)
-
-        self.compound_2_label = tk.StringVar(value="")
-        self.compound_2_label_box = tk.Entry(self, textvariable=self.compound_2_label)
-        self.compound_2_label_box.config(state=tk.DISABLED)
-        self.compound_2_label_box.config(disabledbackground='white')
-        self.compound_2_label_box.config(disabledforeground='black')
-        self.compound_2_label_box.grid(column=1, row=11)
-
-        self.compound_3_label = tk.StringVar(value="")
-        self.compound_3_label_box = tk.Entry(self, textvariable=self.compound_3_label)
-        self.compound_3_label_box.config(state=tk.DISABLED)
-        self.compound_3_label_box.config(disabledbackground='white')
-        self.compound_3_label_box.config(disabledforeground='black')
-        self.compound_3_label_box.grid(column=1, row=12)
-
-        self.compound_4_label = tk.StringVar(value="")
-        self.compound_4_label_box = tk.Entry(self, textvariable=self.compound_4_label)
-        self.compound_4_label_box.config(state=tk.DISABLED)
-        self.compound_4_label_box.config(disabledbackground='white')
-        self.compound_4_label_box.config(disabledforeground='black')
-        self.compound_4_label_box.grid(column=1, row=13)
-
-        self.compound_5_label = tk.StringVar(value="")
-        self.compound_5_label_box = tk.Entry(self, textvariable=self.compound_5_label)
-        self.compound_5_label_box.config(state=tk.DISABLED)
-        self.compound_5_label_box.config(disabledbackground='white')
-        self.compound_5_label_box.config(disabledforeground='black')
-        self.compound_5_label_box.grid(column=1, row=14)
-
-        self.compound_6_label = tk.StringVar(value="")
-        self.compound_6_label_box = tk.Entry(self, textvariable=self.compound_6_label)
-        self.compound_6_label_box.config(state=tk.DISABLED)
-        self.compound_6_label_box.config(disabledbackground='white')
-        self.compound_6_label_box.config(disabledforeground='black')
-        self.compound_6_label_box.grid(column=1, row=15)
+        self.compound_1_label_box.grid(column=2, row=10)
 
 
         self.selected_compound_list=[]
         self.create_widgets()
 
     def updateLabels(self):
-        self.compound_1_label_box.config(state=tk.NORMAL)
-        self.compound_1_label_box.delete(0, tk.END)
-        self.compound_1_label_box.insert(0, self.selected_compound_list[0])
-        self.compound_1_label_box.config(state=tk.DISABLED)
+        self.compound_1_name_box.config(state=tk.NORMAL)
+        self.compound_1_name_box.delete(0, tk.END)
+        self.compound_1_name_box.insert(0, self.selected_compound_list[0])
+        self.compound_1_name_box.config(state=tk.DISABLED)
 
-        self.compound_2_label_box.config(state=tk.NORMAL)
-        self.compound_2_label_box.delete(0, tk.END)
-        self.compound_2_label_box.insert(0, self.selected_compound_list[1])
-        self.compound_2_label_box.config(state=tk.DISABLED)
+        self.compound_2_name_box.config(state=tk.NORMAL)
+        self.compound_2_name_box.delete(0, tk.END)
+        self.compound_2_name_box.insert(0, self.selected_compound_list[1])
+        self.compound_2_name_box.config(state=tk.DISABLED)
 
-        self.compound_3_label_box.config(state=tk.NORMAL)
-        self.compound_3_label_box.delete(0, tk.END)
-        self.compound_3_label_box.insert(0, self.selected_compound_list[2])
-        self.compound_3_label_box.config(state=tk.DISABLED)
+        self.compound_3_name_box.config(state=tk.NORMAL)
+        self.compound_3_name_box.delete(0, tk.END)
+        self.compound_3_name_box.insert(0, self.selected_compound_list[2])
+        self.compound_3_name_box.config(state=tk.DISABLED)
 
-        self.compound_4_label_box.config(state=tk.NORMAL)
-        self.compound_4_label_box.delete(0, tk.END)
-        self.compound_4_label_box.insert(0, self.selected_compound_list[3])
-        self.compound_4_label_box.config(state=tk.DISABLED)
+        self.compound_4_name_box.config(state=tk.NORMAL)
+        self.compound_4_name_box.delete(0, tk.END)
+        self.compound_4_name_box.insert(0, self.selected_compound_list[3])
+        self.compound_4_name_box.config(state=tk.DISABLED)
 
-        self.compound_5_label_box.config(state=tk.NORMAL)
-        self.compound_5_label_box.delete(0, tk.END)
-        self.compound_5_label_box.insert(0, self.selected_compound_list[4])
-        self.compound_5_label_box.config(state=tk.DISABLED)
+        self.compound_5_name_box.config(state=tk.NORMAL)
+        self.compound_5_name_box.delete(0, tk.END)
+        self.compound_5_name_box.insert(0, self.selected_compound_list[4])
+        self.compound_5_name_box.config(state=tk.DISABLED)
 
-        self.compound_6_label_box.config(state=tk.NORMAL)
-        self.compound_6_label_box.delete(0, tk.END)
-        self.compound_6_label_box.insert(0, self.selected_compound_list[5])
-        self.compound_6_label_box.config(state=tk.DISABLED)
+        self.compound_6_name_box.config(state=tk.NORMAL)
+        self.compound_6_name_box.delete(0, tk.END)
+        self.compound_6_name_box.insert(0, self.selected_compound_list[5])
+        self.compound_6_name_box.config(state=tk.DISABLED)
         return
 
     def removeOnDouble(self,event):
@@ -195,7 +204,8 @@ class PageTwo(tk.Frame):
         self.compound_box.delete(selection[0])
         self.selected_compound_list.remove(value)
         print(self.selected_compound_list)
-        #print(self.selected_compound_list[0])
+        self.lbox_list.append(value)
+        self.update_list()
 
     def addOnDouble(self,event):
         widget = event.widget
@@ -204,6 +214,8 @@ class PageTwo(tk.Frame):
         self.compound_box.insert(tk.END, value)
         self.selected_compound_list.append(value)
         print(self.selected_compound_list)
+        self.lbox_list.remove(value)
+        self.update_list()
 
     def create_widgets(self):
         self.search_var = tk.StringVar()
@@ -223,6 +235,7 @@ class PageTwo(tk.Frame):
 
         # Populate the listbox
         self.lbox_list = compound_list
+        self.lbox_list.sort()
 
         self.lbox.delete(0, tk.END)
 
