@@ -56,8 +56,8 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Start Page", font=LARGE_FONT)
-        label.pack(pady=10, padx=10)
+        #label = tk.Label(self, text="Start Page", font=LARGE_FONT)
+        #label.pack(pady=10, padx=10)
 
         button1=ttk.Button(self, text="Visit Properties",
                           command=lambda: [controller.show_frame(Properties)])
@@ -89,6 +89,7 @@ class PageTwo(tk.Frame):
         tk.Frame.__init__(self, parent)
         #label = tk.Label(self, text="Page Two", font=LARGE_FONT)
         #label.grid(column=1, row=1)
+        self.grid(padx=18, pady=18)
 
         self.addButton = ttk.Button(self, text="Add")
                             #command=self.addOnDouble)
@@ -98,7 +99,7 @@ class PageTwo(tk.Frame):
                             #command=self.removeWithButton)
         self.removeButton.grid(column=6, row=4)
 
-        self.createButton = ttk.Button(self, text="Create", command=lambda: self.updateLabels())
+        self.createButton = ttk.Button(self, text="Create", command=lambda: self.createWrapper())
         self.createButton.grid(column=11, row=7)
 
         self.compound_box = tk.Listbox(self, width=45, height=15)
@@ -107,62 +108,110 @@ class PageTwo(tk.Frame):
 
         ttk.Separator(self, orient='horizontal').grid(column=1, row=8, columnspan=11, sticky='ew')
 
+        label = tk.Label(self, text="Search :")
+        label.grid(column=1, row=1, sticky="W")
         label = tk.Label(self, text="Compound Name")
         label.grid(column=1, row=9)
+        label = tk.Label(self, text="Mole Fraction")
+        label.grid(column=2, row=9)
 #Compound names will be transfered below boxes.
         self.compound_1_name = tk.StringVar(value="")
         self.compound_1_name_box = tk.Entry(self, textvariable=self.compound_1_name)
         self.compound_1_name_box.config(state=tk.DISABLED)
         self.compound_1_name_box.config(disabledbackground='white')
         self.compound_1_name_box.config(disabledforeground='black')
-        self.compound_1_name_box.grid(column=1, row=10)
+        self.compound_1_name_box.grid(column=1, row=10, sticky="E")
 
         self.compound_2_name = tk.StringVar(value="")
         self.compound_2_name_box = tk.Entry(self, textvariable=self.compound_2_name)
         self.compound_2_name_box.config(state=tk.DISABLED)
         self.compound_2_name_box.config(disabledbackground='white')
         self.compound_2_name_box.config(disabledforeground='black')
-        self.compound_2_name_box.grid(column=1, row=11)
+        self.compound_2_name_box.grid(column=1, row=11, sticky="E")
 
         self.compound_3_name = tk.StringVar(value="")
         self.compound_3_name_box = tk.Entry(self, textvariable=self.compound_3_name)
         self.compound_3_name_box.config(state=tk.DISABLED)
         self.compound_3_name_box.config(disabledbackground='white')
         self.compound_3_name_box.config(disabledforeground='black')
-        self.compound_3_name_box.grid(column=1, row=12)
+        self.compound_3_name_box.grid(column=1, row=12, sticky="E")
 
         self.compound_4_name = tk.StringVar(value="")
         self.compound_4_name_box = tk.Entry(self, textvariable=self.compound_4_name)
         self.compound_4_name_box.config(state=tk.DISABLED)
         self.compound_4_name_box.config(disabledbackground='white')
         self.compound_4_name_box.config(disabledforeground='black')
-        self.compound_4_name_box.grid(column=1, row=13)
+        self.compound_4_name_box.grid(column=1, row=13, sticky="E")
 
         self.compound_5_name = tk.StringVar(value="")
         self.compound_5_name_box = tk.Entry(self, textvariable=self.compound_5_name)
         self.compound_5_name_box.config(state=tk.DISABLED)
         self.compound_5_name_box.config(disabledbackground='white')
         self.compound_5_name_box.config(disabledforeground='black')
-        self.compound_5_name_box.grid(column=1, row=14)
+        self.compound_5_name_box.grid(column=1, row=14, sticky="E")
 
         self.compound_6_name = tk.StringVar(value="")
         self.compound_6_name_box = tk.Entry(self, textvariable=self.compound_6_name)
         self.compound_6_name_box.config(state=tk.DISABLED)
         self.compound_6_name_box.config(disabledbackground='white')
         self.compound_6_name_box.config(disabledforeground='black')
-        self.compound_6_name_box.grid(column=1, row=15)
+        self.compound_6_name_box.grid(column=1, row=15, sticky="E")
 # Compound names will be transfered above boxes.
 
 # Mole fractions will be entered below boxes.
         self.compound_1_mole_fraction = tk.StringVar(value="")
-        self.compound_1_label_box = tk.Entry(self, textvariable=self.compound_1_mole_fraction)
-        self.compound_1_label_box.config(state=tk.DISABLED)
-        self.compound_1_label_box.config(disabledbackground='white')
-        self.compound_1_label_box.config(disabledforeground='black')
-        self.compound_1_label_box.grid(column=2, row=10)
+        self.compound_1_mole_fraction_box = tk.Entry(self, textvariable=self.compound_1_mole_fraction)
+        self.compound_1_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_1_mole_fraction_box.config(disabledbackground='white')
+        self.compound_1_mole_fraction_box.config(disabledforeground='black')
+        self.compound_1_mole_fraction_box.grid(column=2, row=10, sticky="E")
 
+        self.compound_2_mole_fraction = tk.StringVar(value="")
+        self.compound_2_mole_fraction_box = tk.Entry(self, textvariable=self.compound_2_mole_fraction)
+        self.compound_2_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_2_mole_fraction_box.config(disabledbackground='white')
+        self.compound_2_mole_fraction_box.config(disabledforeground='black')
+        self.compound_2_mole_fraction_box.grid(column=2, row=11, sticky="E")
+
+        self.compound_3_mole_fraction = tk.StringVar(value="")
+        self.compound_3_mole_fraction_box = tk.Entry(self, textvariable=self.compound_3_mole_fraction)
+        self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_3_mole_fraction_box.config(disabledbackground='white')
+        self.compound_3_mole_fraction_box.config(disabledforeground='black')
+        self.compound_3_mole_fraction_box.grid(column=2, row=12, sticky="E")
+
+        self.compound_4_mole_fraction = tk.StringVar(value="")
+        self.compound_4_mole_fraction_box = tk.Entry(self, textvariable=self.compound_4_mole_fraction)
+        self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_4_mole_fraction_box.config(disabledbackground='white')
+        self.compound_4_mole_fraction_box.config(disabledforeground='black')
+        self.compound_4_mole_fraction_box.grid(column=2, row=13, sticky="E")
+
+        self.compound_5_mole_fraction = tk.StringVar(value="")
+        self.compound_5_mole_fraction_box = tk.Entry(self, textvariable=self.compound_5_mole_fraction)
+        self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_5_mole_fraction_box.config(disabledbackground='white')
+        self.compound_5_mole_fraction_box.config(disabledforeground='black')
+        self.compound_5_mole_fraction_box.grid(column=2, row=14, sticky="E")
+
+        self.compound_6_mole_fraction = tk.StringVar(value="")
+        self.compound_6_mole_fraction_box = tk.Entry(self, textvariable=self.compound_6_mole_fraction)
+        self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_6_mole_fraction_box.config(disabledbackground='white')
+        self.compound_6_mole_fraction_box.config(disabledforeground='black')
+        self.compound_6_mole_fraction_box.grid(column=2, row=15, sticky="E")
+
+# Mole fractions will be entered above boxes.
         self.selected_compound_list=[]
         self.create_widgets()
+
+    def createWrapper(self):
+        self.updateFracStatus()
+        self.updateLabels()
+
+    def updateFracStatus(self):
+        return
+
 
     def updateLabels(self):
         self.compound_1_name_box.config(state=tk.NORMAL)
@@ -184,33 +233,93 @@ class PageTwo(tk.Frame):
             #self.compound_1_name_box.delete(0, tk.END)
             self.compound_1_name_box.insert(0, self.selected_compound_list[0])
             self.compound_1_name_box.config(state=tk.DISABLED)
+            self.compound_1_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_1_mole_fraction_box.delete(0, tk.END)
+        else:
+            self.compound_1_name_box.config(state=tk.DISABLED)
+            self.compound_1_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_2_name_box.config(state=tk.DISABLED)
+            self.compound_2_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_3_name_box.config(state=tk.DISABLED)
+            self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_4_name_box.config(state=tk.DISABLED)
+            self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 2:
             #self.compound_2_name_box.config(state=tk.NORMAL)
             #self.compound_2_name_box.delete(0, tk.END)
             self.compound_2_name_box.insert(0, self.selected_compound_list[1])
             self.compound_2_name_box.config(state=tk.DISABLED)
+            self.compound_2_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_2_mole_fraction_box.delete(0, tk.END)
+        else:
+            self.compound_2_name_box.config(state=tk.DISABLED)
+            self.compound_2_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_3_name_box.config(state=tk.DISABLED)
+            self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_4_name_box.config(state=tk.DISABLED)
+            self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+
         if numberOfCompunds >= 3:
             #self.compound_3_name_box.config(state=tk.NORMAL)
             #self.compound_3_name_box.delete(0, tk.END)
             self.compound_3_name_box.insert(0, self.selected_compound_list[2])
             self.compound_3_name_box.config(state=tk.DISABLED)
+            self.compound_3_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_3_mole_fraction_box.delete(0, tk.END)
+        else:
+            self.compound_3_name_box.config(state=tk.DISABLED)
+            self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_4_name_box.config(state=tk.DISABLED)
+            self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+
         if numberOfCompunds >= 4:
             #self.compound_4_name_box.config(state=tk.NORMAL)
             #self.compound_4_name_box.delete(0, tk.END)
             self.compound_4_name_box.insert(0, self.selected_compound_list[3])
             self.compound_4_name_box.config(state=tk.DISABLED)
+            self.compound_4_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_4_mole_fraction_box.delete(0, tk.END)
+        else:
+            self.compound_4_name_box.config(state=tk.DISABLED)
+            self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+
         if numberOfCompunds >= 5:
             #self.compound_5_name_box.config(state=tk.NORMAL)
             #self.compound_5_name_box.delete(0, tk.END)
             self.compound_5_name_box.insert(0, self.selected_compound_list[4])
             self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_5_mole_fraction_box.delete(0, tk.END)
+        else:
+            self.compound_5_name_box.config(state=tk.DISABLED)
+            self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+
         if numberOfCompunds >= 6:
             #self.compound_6_name_box.config(state=tk.NORMAL)
             #self.compound_6_name_box.delete(0, tk.END)
             self.compound_6_name_box.insert(0, self.selected_compound_list[5])
             self.compound_6_name_box.config(state=tk.DISABLED)
-
+            self.compound_6_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_6_mole_fraction_box.delete(0, tk.END)
 
     def removeOnDouble(self,event):
         widget = event.widget
@@ -240,8 +349,8 @@ class PageTwo(tk.Frame):
         self.entry = tk.Entry(self, textvariable=self.search_var, width=13)
         self.lbox = tk.Listbox(self, width=45, height=15)
         self.lbox.bind('<Double-Button-1>', self.addOnDouble)
-        self.entry.grid(column=2, row=1)
-        self.lbox.grid(column=1, row=2, columnspan=5, rowspan=5)
+        self.entry.grid(column=2, row=1, sticky="W")
+        self.lbox.grid(column=1, row=2, columnspan=5, rowspan=5, sticky="E")
 
         # Function for updating the list/doing the search.
         # It needs to be called here to populate the listbox.
