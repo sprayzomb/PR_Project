@@ -161,41 +161,56 @@ class PageTwo(tk.Frame):
         self.compound_1_label_box.config(disabledforeground='black')
         self.compound_1_label_box.grid(column=2, row=10)
 
-
         self.selected_compound_list=[]
         self.create_widgets()
 
     def updateLabels(self):
         self.compound_1_name_box.config(state=tk.NORMAL)
         self.compound_1_name_box.delete(0, tk.END)
-        self.compound_1_name_box.insert(0, self.selected_compound_list[0])
-        self.compound_1_name_box.config(state=tk.DISABLED)
-
         self.compound_2_name_box.config(state=tk.NORMAL)
         self.compound_2_name_box.delete(0, tk.END)
-        self.compound_2_name_box.insert(0, self.selected_compound_list[1])
-        self.compound_2_name_box.config(state=tk.DISABLED)
-
         self.compound_3_name_box.config(state=tk.NORMAL)
         self.compound_3_name_box.delete(0, tk.END)
-        self.compound_3_name_box.insert(0, self.selected_compound_list[2])
-        self.compound_3_name_box.config(state=tk.DISABLED)
-
         self.compound_4_name_box.config(state=tk.NORMAL)
         self.compound_4_name_box.delete(0, tk.END)
-        self.compound_4_name_box.insert(0, self.selected_compound_list[3])
-        self.compound_4_name_box.config(state=tk.DISABLED)
-
         self.compound_5_name_box.config(state=tk.NORMAL)
         self.compound_5_name_box.delete(0, tk.END)
-        self.compound_5_name_box.insert(0, self.selected_compound_list[4])
-        self.compound_5_name_box.config(state=tk.DISABLED)
-
         self.compound_6_name_box.config(state=tk.NORMAL)
         self.compound_6_name_box.delete(0, tk.END)
-        self.compound_6_name_box.insert(0, self.selected_compound_list[5])
-        self.compound_6_name_box.config(state=tk.DISABLED)
-        return
+
+        numberOfCompunds = len(self.selected_compound_list)
+        if numberOfCompunds >= 1:
+            #self.compound_1_name_box.config(state=tk.NORMAL)
+            #self.compound_1_name_box.delete(0, tk.END)
+            self.compound_1_name_box.insert(0, self.selected_compound_list[0])
+            self.compound_1_name_box.config(state=tk.DISABLED)
+
+        if numberOfCompunds >= 2:
+            #self.compound_2_name_box.config(state=tk.NORMAL)
+            #self.compound_2_name_box.delete(0, tk.END)
+            self.compound_2_name_box.insert(0, self.selected_compound_list[1])
+            self.compound_2_name_box.config(state=tk.DISABLED)
+        if numberOfCompunds >= 3:
+            #self.compound_3_name_box.config(state=tk.NORMAL)
+            #self.compound_3_name_box.delete(0, tk.END)
+            self.compound_3_name_box.insert(0, self.selected_compound_list[2])
+            self.compound_3_name_box.config(state=tk.DISABLED)
+        if numberOfCompunds >= 4:
+            #self.compound_4_name_box.config(state=tk.NORMAL)
+            #self.compound_4_name_box.delete(0, tk.END)
+            self.compound_4_name_box.insert(0, self.selected_compound_list[3])
+            self.compound_4_name_box.config(state=tk.DISABLED)
+        if numberOfCompunds >= 5:
+            #self.compound_5_name_box.config(state=tk.NORMAL)
+            #self.compound_5_name_box.delete(0, tk.END)
+            self.compound_5_name_box.insert(0, self.selected_compound_list[4])
+            self.compound_5_name_box.config(state=tk.DISABLED)
+        if numberOfCompunds >= 6:
+            #self.compound_6_name_box.config(state=tk.NORMAL)
+            #self.compound_6_name_box.delete(0, tk.END)
+            self.compound_6_name_box.insert(0, self.selected_compound_list[5])
+            self.compound_6_name_box.config(state=tk.DISABLED)
+
 
     def removeOnDouble(self,event):
         widget = event.widget
@@ -204,6 +219,7 @@ class PageTwo(tk.Frame):
         self.compound_box.delete(selection[0])
         self.selected_compound_list.remove(value)
         print(self.selected_compound_list)
+        print(len(self.selected_compound_list))
         self.lbox_list.append(value)
         self.update_list()
 
@@ -214,6 +230,7 @@ class PageTwo(tk.Frame):
         self.compound_box.insert(tk.END, value)
         self.selected_compound_list.append(value)
         print(self.selected_compound_list)
+        print(len(self.selected_compound_list))
         self.lbox_list.remove(value)
         self.update_list()
 
