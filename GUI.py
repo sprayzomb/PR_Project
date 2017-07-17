@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
+import math
 import tkinter.font as tkfont
 import csv
-#import numpy as np
+from numpy.polynomial import Polynomial as P
 
 filename = "proptable.csv"
 
@@ -37,7 +38,7 @@ class PR(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, Properties, PageTwo):
+        for F in (StartPage, PageTwo):
 
             frame = F(container, self)
 
@@ -59,37 +60,18 @@ class StartPage(tk.Frame):
         #label = tk.Label(self, text="Start Page", font=LARGE_FONT)
         #label.pack(pady=10, padx=10)
 
-        button1=ttk.Button(self, text="Visit Properties",
-                          command=lambda: [controller.show_frame(Properties)])
-        button1.pack()
-
         button2 = ttk.Button(self, text="Visit PageTwo",
                              command=lambda: [controller.show_frame(PageTwo)])
-        button2.pack()
-
-
-class Properties(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Properties", font=LARGE_FONT)
-        label.pack(pady=10, padx=10)
-
-        button1 = ttk.Button(self, text="Back to Home",
-                            command=lambda: [controller.show_frame(StartPage)])
-        button1.pack()
-
-        button2 = ttk.Button(self, text="Page Two",
-                            command=lambda: [controller.show_frame(PageTwo)])
-        button2.pack()
+        button2.grid(row=5, column=5)
 
 class PageTwo(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+
         #label = tk.Label(self, text="Page Two", font=LARGE_FONT)
         #label.grid(column=1, row=1)
-        self.grid(padx=18, pady=18)
+        self.grid(padx=20, pady=20)
 
         self.addButton = ttk.Button(self, text="Add")
                             #command=self.addOnDouble)
@@ -101,6 +83,9 @@ class PageTwo(tk.Frame):
 
         self.createButton = ttk.Button(self, text="Create", command=lambda: self.createWrapper())
         self.createButton.grid(column=11, row=7)
+
+        self.createButton = ttk.Button(self, text="Calculate", command=lambda: self.calculator())
+        self.createButton.grid(column=11, row=14)
 
         self.compound_box = tk.Listbox(self, width=45, height=15)
         self.compound_box.bind('<Double-Button-1>', self.removeOnDouble)
@@ -120,42 +105,42 @@ class PageTwo(tk.Frame):
         self.compound_1_name_box.config(state=tk.DISABLED)
         self.compound_1_name_box.config(disabledbackground='white')
         self.compound_1_name_box.config(disabledforeground='black')
-        self.compound_1_name_box.grid(column=1, row=10, sticky="E")
+        self.compound_1_name_box.grid(column=1, row=10, sticky="E", padx=5, pady=5)
 
         self.compound_2_name = tk.StringVar(value="")
         self.compound_2_name_box = tk.Entry(self, textvariable=self.compound_2_name)
         self.compound_2_name_box.config(state=tk.DISABLED)
         self.compound_2_name_box.config(disabledbackground='white')
         self.compound_2_name_box.config(disabledforeground='black')
-        self.compound_2_name_box.grid(column=1, row=11, sticky="E")
+        self.compound_2_name_box.grid(column=1, row=11, sticky="E", padx=5, pady=5)
 
         self.compound_3_name = tk.StringVar(value="")
         self.compound_3_name_box = tk.Entry(self, textvariable=self.compound_3_name)
         self.compound_3_name_box.config(state=tk.DISABLED)
         self.compound_3_name_box.config(disabledbackground='white')
         self.compound_3_name_box.config(disabledforeground='black')
-        self.compound_3_name_box.grid(column=1, row=12, sticky="E")
+        self.compound_3_name_box.grid(column=1, row=12, sticky="E", padx=5, pady=5)
 
         self.compound_4_name = tk.StringVar(value="")
         self.compound_4_name_box = tk.Entry(self, textvariable=self.compound_4_name)
         self.compound_4_name_box.config(state=tk.DISABLED)
         self.compound_4_name_box.config(disabledbackground='white')
         self.compound_4_name_box.config(disabledforeground='black')
-        self.compound_4_name_box.grid(column=1, row=13, sticky="E")
+        self.compound_4_name_box.grid(column=1, row=13, sticky="E", padx=5, pady=5)
 
         self.compound_5_name = tk.StringVar(value="")
         self.compound_5_name_box = tk.Entry(self, textvariable=self.compound_5_name)
         self.compound_5_name_box.config(state=tk.DISABLED)
         self.compound_5_name_box.config(disabledbackground='white')
         self.compound_5_name_box.config(disabledforeground='black')
-        self.compound_5_name_box.grid(column=1, row=14, sticky="E")
+        self.compound_5_name_box.grid(column=1, row=14, sticky="E", padx=5, pady=5)
 
         self.compound_6_name = tk.StringVar(value="")
         self.compound_6_name_box = tk.Entry(self, textvariable=self.compound_6_name)
         self.compound_6_name_box.config(state=tk.DISABLED)
         self.compound_6_name_box.config(disabledbackground='white')
         self.compound_6_name_box.config(disabledforeground='black')
-        self.compound_6_name_box.grid(column=1, row=15, sticky="E")
+        self.compound_6_name_box.grid(column=1, row=15, sticky="E", padx=5, pady=5)
 # Compound names will be transfered above boxes.
 
 # Mole fractions will be entered below boxes.
@@ -202,18 +187,105 @@ class PageTwo(tk.Frame):
         self.compound_6_mole_fraction_box.grid(column=2, row=15, sticky="E")
 
 # Mole fractions will be entered above boxes.
+
+        self.temperature = tk.StringVar(value="")
+        self.temperature_box = tk.Entry(self, textvariable=self.temperature)
+        #self.temperature_box.config(state=tk.DISABLED)
+        self.temperature_box.config(disabledbackground='white')
+        self.temperature_box.config(disabledforeground='black')
+        self.temperature_box.grid(column=7, row=10, sticky="E")
+
+        self.pressure = tk.StringVar(value="")
+        self.pressure_box = tk.Entry(self, textvariable=self.pressure)
+        # self.pressure_box.config(state=tk.DISABLED)
+        self.pressure_box.config(disabledbackground='white')
+        self.pressure_box.config(disabledforeground='black')
+        self.pressure_box.grid(column=8, row=10, sticky="E")
+
         self.selected_compound_list=[]
+        self.selected_compound_fractions_list=[]
+        self.selected_compound_fractions_list=[]
         self.create_widgets()
 
+    def pull_data(self, name, column):
+        return table_df.loc[name, column]
+
     def createWrapper(self):
-        self.updateFracStatus()
         self.updateLabels()
 
-    def updateFracStatus(self):
-        return
+    def fractionget(self):
+        if len(self.selected_compound_list)>= 1:
+            self.selected_compound_fractions_list.append(self.compound_1_mole_fraction_box.get())
+
+        if len(self.selected_compound_list)>= 2:
+            self.selected_compound_fractions_list.append(self.compound_2_mole_fraction_box.get())
+
+        if len(self.selected_compound_list) >= 3:
+            self.selected_compound_fractions_list.append(self.compound_3_mole_fraction_box.get())
+
+        if len(self.selected_compound_list) >= 4:
+            self.selected_compound_fractions_list.append(self.compound_4_mole_fraction_box.get())
+
+        if len(self.selected_compound_list) >= 5:
+            self.selected_compound_fractions_list.append(self.compound_5_mole_fraction_box.get())
+
+        if len(self.selected_compound_list) >= 6:
+            self.selected_compound_fractions_list.append(self.compound_6_mole_fraction_box.get())
+        #print(self.selected_compound_fractions_list)
+
+    def calculator(self):
+        self.fractionget()
+        self.temperature_entered = self.temperature_box.get()
+        self.pressure_entered = self.pressure_box.get()
+        self.TC_List = list()
+        self.TR_List = list()
+        self.PC_List = list()
+        self.w_List = list()
+        for i in self.selected_compound_list:
+            self.TC_List.append(self.pull_data(i, "Tc(K)"))
+            self.PC_List.append(self.pull_data(i, "Pc(MPa)"))
+            self.w_List.append(self.pull_data(i, "w"))
+            #self.TR_List.append(self.temperature_entered / self.TC_List[i])
+        numberOfCompunds = len(self.selected_compound_list)
+        self.a_List = list()
+        self.b_List = list()
+        for i in range(0, numberOfCompunds):
+            self.a_List.append((1 + (0.37464 + 1.54226 * self.w_List[i] - 0.26992*self.w_List[i]**2) *
+                               (1 - math.sqrt(float(self.temperature_entered)/self.TC_List[i])))**2 * 0.45724 * ((8.314*10**-6)**2) * (self.TC_List[i]**2)
+                               /self.PC_List[i])
+            self.b_List.append(0.07780*(8.314*10**-6)*self.TC_List[i]/self.PC_List[i])
+        #print(self.a_List)
+        #print(self.b_List)
+
+        self.aMix_List = list()
+        self.bMix_List = list()
+        for i in range(0, numberOfCompunds):
+            self.bMix_List.append(float(self.selected_compound_fractions_list[i])*float(self.b_List[i]))
+            for j in range(0, numberOfCompunds):
+                self.aMix_List.append(float(self.selected_compound_fractions_list[i])*float(self.selected_compound_fractions_list[j])* math.sqrt(float(self.a_List[i])*float(self.a_List[j])))
+
+        self.aM = sum(set(self.aMix_List))
+        self.bM = sum(set(self.bMix_List))
+
+        self.A = self.aM * float(self.pressure_entered) / (((8.314*10**-6)**2)*(float(self.temperature_entered)**2))
+        self.B = self.bM * float(self.pressure_entered) / ((8.314 * 10 ** -6) * float(self.temperature_entered))
+
+        self.z3coef = 1
+        self.z2coef = -(1-self.B)
+        self.z1coef = self.A - 2*self.B - 3*(self.B**2)
+        self.z0coef = self.A*self.B - 2*self.B - self.B**2
+
+        #p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
+        p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
+        print(float(self.pressure_entered))
+        print(float(self.temperature_entered))
+        print(float(self.selected_compound_fractions_list[0]))
+        print(float(self.selected_compound_fractions_list[1]))
+        print(p.roots())
 
 
     def updateLabels(self):
+
         self.compound_1_name_box.config(state=tk.NORMAL)
         self.compound_1_name_box.delete(0, tk.END)
         self.compound_2_name_box.config(state=tk.NORMAL)
@@ -226,6 +298,19 @@ class PageTwo(tk.Frame):
         self.compound_5_name_box.delete(0, tk.END)
         self.compound_6_name_box.config(state=tk.NORMAL)
         self.compound_6_name_box.delete(0, tk.END)
+        self.compound_1_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_1_mole_fraction_box.delete(0, tk.END)
+        self.compound_2_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_2_mole_fraction_box.delete(0, tk.END)
+        self.compound_3_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_3_mole_fraction_box.delete(0, tk.END)
+        self.compound_4_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_4_mole_fraction_box.delete(0, tk.END)
+        self.compound_5_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_5_mole_fraction_box.delete(0, tk.END)
+        self.compound_6_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_6_mole_fraction_box.delete(0, tk.END)
+
 
         numberOfCompunds = len(self.selected_compound_list)
         if numberOfCompunds >= 1:
@@ -235,6 +320,11 @@ class PageTwo(tk.Frame):
             self.compound_1_name_box.config(state=tk.DISABLED)
             self.compound_1_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_1_mole_fraction_box.delete(0, tk.END)
+            #self.name1 = self.compound_1_name_box.get()
+            #self.compund1_TC = self.pull_data(self.name1, "Tc(K)")
+            #self.compund1_PC = self.pull_data(self.name1, "Pc(MPa)")
+            #self.compund1_w = self.pull_data(self.name1, "w")
+
         else:
             self.compound_1_name_box.config(state=tk.DISABLED)
             self.compound_1_mole_fraction_box.config(state=tk.DISABLED)
@@ -256,6 +346,11 @@ class PageTwo(tk.Frame):
             self.compound_2_name_box.config(state=tk.DISABLED)
             self.compound_2_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_2_mole_fraction_box.delete(0, tk.END)
+            #self.name2 = self.compound_2_name_box.get()
+            #self.compund2_TC = self.pull_data(self.name2, "Tc(K)")
+            #self.compund2_PC = self.pull_data(self.name2, "Pc(MPa)")
+            #self.compund2_w = self.pull_data(self.name2, "w")
+
         else:
             self.compound_2_name_box.config(state=tk.DISABLED)
             self.compound_2_mole_fraction_box.config(state=tk.DISABLED)
@@ -275,6 +370,10 @@ class PageTwo(tk.Frame):
             self.compound_3_name_box.config(state=tk.DISABLED)
             self.compound_3_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_3_mole_fraction_box.delete(0, tk.END)
+            #self.name3 = self.compound_3_name_box.get()
+            #self.compund3_TC = self.pull_data(self.name3, "Tc(K)")
+            #self.compund3_PC = self.pull_data(self.name3, "Pc(MPa)")
+            #self.compund3_w = self.pull_data(self.name3, "w")
         else:
             self.compound_3_name_box.config(state=tk.DISABLED)
             self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
@@ -292,6 +391,10 @@ class PageTwo(tk.Frame):
             self.compound_4_name_box.config(state=tk.DISABLED)
             self.compound_4_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_4_mole_fraction_box.delete(0, tk.END)
+            #self.name4 = self.compound_4_name_box.get()
+            #self.compund4_TC = self.pull_data(self.name4, "Tc(K)")
+            #self.compund4_PC = self.pull_data(self.name4, "Pc(MPa)")
+            #self.compund4_w = self.pull_data(self.name4, "w")
         else:
             self.compound_4_name_box.config(state=tk.DISABLED)
             self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
@@ -307,6 +410,10 @@ class PageTwo(tk.Frame):
             self.compound_5_name_box.config(state=tk.DISABLED)
             self.compound_5_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_5_mole_fraction_box.delete(0, tk.END)
+            #self.name5 = self.compound_1_name_box.get()
+            #self.compund5_TC = self.pull_data(self.name5, "Tc(K)")
+            #self.compund5_PC = self.pull_data(self.name5, "Pc(MPa)")
+            #self.compund5_w = self.pull_data(self.name5, "w")
         else:
             self.compound_5_name_box.config(state=tk.DISABLED)
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
@@ -320,6 +427,13 @@ class PageTwo(tk.Frame):
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_6_mole_fraction_box.delete(0, tk.END)
+            #self.name6 = self.compound_1_name_box.get()
+            #self.compund6_TC = self.pull_data(self.name6, "Tc(K)")
+            #self.compund6_PC = self.pull_data(self.name6, "Pc(MPa)")
+            #self.compund6_w = self.pull_data(self.name6, "w")
+        else:
+            self.compound_6_name_box.config(state=tk.DISABLED)
+            self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
 
     def removeOnDouble(self,event):
         widget = event.widget
@@ -327,8 +441,8 @@ class PageTwo(tk.Frame):
         value = widget.get(selection[0])
         self.compound_box.delete(selection[0])
         self.selected_compound_list.remove(value)
-        print(self.selected_compound_list)
-        print(len(self.selected_compound_list))
+        #print(self.selected_compound_list)
+        #print(len(self.selected_compound_list))
         self.lbox_list.append(value)
         self.update_list()
 
@@ -338,8 +452,8 @@ class PageTwo(tk.Frame):
         value = widget.get(selection[0])
         self.compound_box.insert(tk.END, value)
         self.selected_compound_list.append(value)
-        print(self.selected_compound_list)
-        print(len(self.selected_compound_list))
+        #print(self.selected_compound_list)
+        #print(len(self.selected_compound_list))
         self.lbox_list.remove(value)
         self.update_list()
 
