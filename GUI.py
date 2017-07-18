@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import tkinter.font as tkfont
 import csv
-from numpy.polynomial import Polynomial as P
+import numpy as np
 
 filename = "proptable.csv"
 
@@ -276,13 +276,14 @@ class PageTwo(tk.Frame):
         self.z0coef = self.A*self.B - 2*self.B - self.B**2
 
         #p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
-        p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
-        print(float(self.pressure_entered))
-        print(float(self.temperature_entered))
-        print(float(self.selected_compound_fractions_list[0]))
-        print(float(self.selected_compound_fractions_list[1]))
-        print(p.roots())
-
+        p = [self.z0coef, self.z1coef, self.z2coef, self.z3coef]
+        print(self.z3coef)
+        print(self.z2coef)
+        print(self.z1coef)
+        print(self.z0coef)
+        roots=np.roots(p)
+        print(roots)
+        print(roots[~np.iscomplex(roots)])
 
     def updateLabels(self):
 
