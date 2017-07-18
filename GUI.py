@@ -234,6 +234,7 @@ class PageTwo(tk.Frame):
         #print(self.selected_compound_fractions_list)
 
     def calculator(self):
+        self.R=8.3145
         self.fractionget()
         self.temperature_entered = self.temperature_box.get()
         self.pressure_entered = self.pressure_box.get()
@@ -243,47 +244,67 @@ class PageTwo(tk.Frame):
         self.w_List = list()
         for i in self.selected_compound_list:
             self.TC_List.append(self.pull_data(i, "Tc(K)"))
-            self.PC_List.append(self.pull_data(i, "Pc(MPa)"))
+            self.PC_List.append(self.pull_data(i, "Pc(MPa)")*1.01325)
             self.w_List.append(self.pull_data(i, "w"))
             #self.TR_List.append(self.temperature_entered / self.TC_List[i])
+
+        print(self.TC_List)
+        print(self.PC_List)
+        print(self.w_List)
+
         numberOfCompunds = len(self.selected_compound_list)
         self.a_List = list()
         self.b_List = list()
+        self.k_List = list()
+        self.alpha_List = list()
         for i in range(0, numberOfCompunds):
-            self.a_List.append((1 + (0.37464 + 1.54226 * self.w_List[i] - 0.26992*self.w_List[i]**2) *
-                               (1 - math.sqrt(float(self.temperature_entered)/self.TC_List[i])))**2 * 0.45724 * ((8.314*10**-6)**2) * (self.TC_List[i]**2)
-                               /self.PC_List[i])
-            self.b_List.append(0.07780*(8.314*10**-6)*self.TC_List[i]/self.PC_List[i])
-        #print(self.a_List)
-        #print(self.b_List)
+            self.k_List.append(0.37464 + 1.54226 * self.w_List[i] - 0.26992*self.w_List[i]**2)
+
+            self.alpha_List.append((1+self.k_List[i]*(1-(float(self.temperature_entered)/self.TC_List[i])**0.5))**2)
+
+            self.a_List.append(0.45724*self.alpha_List[i]*(self.R**2)*(self.TC_List[i]**2)/(self.PC_List[i]*100000))
+
+            self.b_List.append(0.07780*(self.R)*self.TC_List[i]/(self.PC_List[i]*100000))
+
+        print(self.a_List)
+        print(self.b_List)
 
         self.aMix_List = list()
         self.bMix_List = list()
         for i in range(0, numberOfCompunds):
-            self.bMix_List.append(float(self.selected_compound_fractions_list[i])*float(self.b_List[i]))
+            self.bMix_List.append(float(self.selected_compound_fractions_list[i])*
+                                  float(self.b_List[i]))
             for j in range(0, numberOfCompunds):
-                self.aMix_List.append(float(self.selected_compound_fractions_list[i])*float(self.selected_compound_fractions_list[j])* math.sqrt(float(self.a_List[i])*float(self.a_List[j])))
+                self.aMix_List.append(float(self.selected_compound_fractions_list[i])*
+                                      float(self.selected_compound_fractions_list[j])*
+                                      math.sqrt(float(self.a_List[i])*float(self.a_List[j])))
 
         self.aM = sum(set(self.aMix_List))
         self.bM = sum(set(self.bMix_List))
 
-        self.A = self.aM * float(self.pressure_entered) / (((8.314*10**-6)**2)*(float(self.temperature_entered)**2))
-        self.B = self.bM * float(self.pressure_entered) / ((8.314 * 10 ** -6) * float(self.temperature_entered))
+        print(self.aM)
+        print(self.bM)
+
+        self.A = self.aM * float(self.pressure_entered) / ((self.R**2)*(float(self.temperature_entered)**2))
+        self.B = self.bM * float(self.pressure_entered) / (self.R * float(self.temperature_entered))
+
+        print(self.A)
+        print(self.B)
 
         self.z3coef = 1
         self.z2coef = -(1-self.B)
         self.z1coef = self.A - 2*self.B - 3*(self.B**2)
-        self.z0coef = self.A*self.B - 2*self.B - self.B**2
+        self.z0coef = -(self.A*self.B - 2*self.B - self.B**2)
 
         #p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
-        p = [self.z0coef, self.z1coef, self.z2coef, self.z3coef]
-        print(self.z3coef)
-        print(self.z2coef)
-        print(self.z1coef)
-        print(self.z0coef)
-        roots=np.roots(p)
-        print(roots)
-        print(roots[~np.iscomplex(roots)])
+        p = [self.z3coef, self.z2coef, self.z1coef, self.z0coef]
+        #print(self.z3coef)
+        #print(self.z2coef)
+        #print(self.z1coef)
+        #print(self.z0coef)
+        #roots=np.roots(p)
+        #print(roots)
+        #print(roots[~np.iscomplex(roots)])
 
     def updateLabels(self):
 
