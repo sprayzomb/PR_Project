@@ -269,6 +269,8 @@ class PageTwo(tk.Frame):
         print(self.a_List)
         print(self.b_List)
 
+
+#PROBLEM STARTS HERE
         self.aMix_List = list()
         self.bMix_List = list()
         for i in range(0, numberOfCompunds):
