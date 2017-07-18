@@ -46,7 +46,7 @@ class PR(tk.Tk):
 
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(StartPage)
+        self.show_frame(PageTwo)
 
     def show_frame(self, cont):
 
@@ -60,9 +60,9 @@ class StartPage(tk.Frame):
         #label = tk.Label(self, text="Start Page", font=LARGE_FONT)
         #label.pack(pady=10, padx=10)
 
-        button2 = ttk.Button(self, text="Visit PageTwo",
-                             command=lambda: [controller.show_frame(PageTwo)])
-        button2.grid(row=5, column=5)
+        #button2 = ttk.Button(self, text="Visit PageTwo",
+        #                     command=lambda: [controller.show_frame(PageTwo)])
+        #button2.grid(row=5, column=5)
 
 class PageTwo(tk.Frame):
 
