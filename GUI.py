@@ -534,6 +534,11 @@ class PageTwo(tk.Frame):
         self.lbox_list = compound_list
         self.lbox_list.sort()
 
+        self.yscroll = tk.Scrollbar(self, orient=tk.VERTICAL)  # new code for scroll
+        self.lbox['yscrollcommand'] = self.yscroll.set  # new code for scroll
+        self.yscroll['command'] = self.lbox.yview   # new code for scroll
+        self.yscroll.grid(row=2, column=3, rowspan=4, sticky='NSE', padx=5, pady=5) # new code for scroll
+
         self.lbox.delete(0, tk.END)
 
         for item in self.lbox_list:
