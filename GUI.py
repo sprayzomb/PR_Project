@@ -75,72 +75,74 @@ class PageTwo(tk.Frame):
 
         self.addButton = ttk.Button(self, text="Add")
                             #command=self.addOnDouble)
-        self.addButton.grid(column=6, row=3)
+        self.addButton.grid(column=6, row=3, padx=5, pady=5)
 
         self.removeButton = ttk.Button(self, text="Remove")
                             #command=self.removeWithButton)
-        self.removeButton.grid(column=6, row=4)
+        self.removeButton.grid(column=6, row=4, padx=5, pady=5)
 
         self.createButton = ttk.Button(self, text="Create", command=lambda: self.createWrapper())
-        self.createButton.grid(column=11, row=7)
+        self.createButton.grid(column=9, row=7, padx=5, pady=5, sticky="W")
 
-        self.createButton = ttk.Button(self, text="Calculate", command=lambda: self.calculator())
-        self.createButton.grid(column=11, row=14)
+        self.calculateButton = ttk.Button(self, text="Calculate", command=lambda: self.calculator())
+        self.calculateButton.grid(column=9, row=14, padx=5, pady=5, sticky="W")
 
-        self.compound_box = tk.Listbox(self, width=45, height=15)
+        self.compound_box = tk.Listbox(self, width=56, height=15)
         self.compound_box.bind('<Double-Button-1>', self.removeOnDouble)
-        self.compound_box.grid(column=7, row=2, columnspan=5, rowspan=5)
+        self.compound_box.grid(column=7, row=2, columnspan=3, rowspan=4, padx=5, pady=5, sticky="W")
 
-        ttk.Separator(self, orient='horizontal').grid(column=1, row=8, columnspan=11, sticky='ew')
+        ttk.Separator(self, orient='horizontal').grid(column=1, row=8, columnspan=9, sticky='ew', padx=5, pady=5)
 
-        label = tk.Label(self, text="Search :")
-        label.grid(column=1, row=1, sticky="W")
         label = tk.Label(self, text="Compound Name")
-        label.grid(column=1, row=9)
+        label.grid(column=1, row=9, sticky="W", padx=5, pady=1,)
         label = tk.Label(self, text="Mole Fraction")
-        label.grid(column=2, row=9)
+        label.grid(column=2, row=9, sticky="W", padx=5, pady=1,)
+        label = tk.Label(self, text="Temperature (K)")
+        label.grid(column=7, row=9, sticky="W", padx=5, pady=1,)
+        label = tk.Label(self, text="Pressure (bar)")
+        label.grid(column=8, row=9, sticky="W", padx=5, pady=1,)
 #Compound names will be transfered below boxes.
         self.compound_1_name = tk.StringVar(value="")
         self.compound_1_name_box = tk.Entry(self, textvariable=self.compound_1_name)
         self.compound_1_name_box.config(state=tk.DISABLED)
         self.compound_1_name_box.config(disabledbackground='white')
         self.compound_1_name_box.config(disabledforeground='black')
-        self.compound_1_name_box.grid(column=1, row=10, sticky="E", padx=5, pady=5)
+        self.compound_1_name_box.grid(column=1, row=10, padx=5, pady=5, sticky="W")
 
         self.compound_2_name = tk.StringVar(value="")
         self.compound_2_name_box = tk.Entry(self, textvariable=self.compound_2_name)
         self.compound_2_name_box.config(state=tk.DISABLED)
         self.compound_2_name_box.config(disabledbackground='white')
         self.compound_2_name_box.config(disabledforeground='black')
-        self.compound_2_name_box.grid(column=1, row=11, sticky="E", padx=5, pady=5)
+        self.compound_2_name_box.grid(column=1, row=11, padx=5, pady=5, sticky="W")
 
         self.compound_3_name = tk.StringVar(value="")
         self.compound_3_name_box = tk.Entry(self, textvariable=self.compound_3_name)
         self.compound_3_name_box.config(state=tk.DISABLED)
         self.compound_3_name_box.config(disabledbackground='white')
         self.compound_3_name_box.config(disabledforeground='black')
-        self.compound_3_name_box.grid(column=1, row=12, sticky="E", padx=5, pady=5)
+        self.compound_3_name_box.grid(column=1, row=12, padx=5, pady=5, sticky="W")
 
         self.compound_4_name = tk.StringVar(value="")
         self.compound_4_name_box = tk.Entry(self, textvariable=self.compound_4_name)
         self.compound_4_name_box.config(state=tk.DISABLED)
         self.compound_4_name_box.config(disabledbackground='white')
         self.compound_4_name_box.config(disabledforeground='black')
-        self.compound_4_name_box.grid(column=1, row=13, sticky="E", padx=5, pady=5)
+        self.compound_4_name_box.grid(column=1, row=13, padx=5, pady=5, sticky="W")
 
         self.compound_5_name = tk.StringVar(value="")
         self.compound_5_name_box = tk.Entry(self, textvariable=self.compound_5_name)
         self.compound_5_name_box.config(state=tk.DISABLED)
         self.compound_5_name_box.config(disabledbackground='white')
         self.compound_5_name_box.config(disabledforeground='black')
-        self.compound_5_name_box.grid(column=1, row=14, sticky="E", padx=5, pady=5)
+        self.compound_5_name_box.grid(column=1, row=14, padx=5, pady=5, sticky="W")
 
         self.compound_6_name = tk.StringVar(value="")
         self.compound_6_name_box = tk.Entry(self, textvariable=self.compound_6_name)
         self.compound_6_name_box.config(state=tk.DISABLED)
         self.compound_6_name_box.config(disabledbackground='white')
         self.compound_6_name_box.config(disabledforeground='black')
-        self.compound_6_name_box.grid(column=1, row=15, sticky="E", padx=5, pady=5)
+        self.compound_6_name_box.grid(column=1, row=15, padx=5, pady=5, sticky="W")
 # Compound names will be transfered above boxes.
 
 # Mole fractions will be entered below boxes.
@@ -149,42 +151,42 @@ class PageTwo(tk.Frame):
         self.compound_1_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_1_mole_fraction_box.config(disabledbackground='white')
         self.compound_1_mole_fraction_box.config(disabledforeground='black')
-        self.compound_1_mole_fraction_box.grid(column=2, row=10, sticky="E")
+        self.compound_1_mole_fraction_box.grid(column=2, row=10, padx=5, pady=5, sticky="W")
 
         self.compound_2_mole_fraction = tk.StringVar(value="")
         self.compound_2_mole_fraction_box = tk.Entry(self, textvariable=self.compound_2_mole_fraction)
         self.compound_2_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_2_mole_fraction_box.config(disabledbackground='white')
         self.compound_2_mole_fraction_box.config(disabledforeground='black')
-        self.compound_2_mole_fraction_box.grid(column=2, row=11, sticky="E")
+        self.compound_2_mole_fraction_box.grid(column=2, row=11, padx=5, pady=5, sticky="W")
 
         self.compound_3_mole_fraction = tk.StringVar(value="")
         self.compound_3_mole_fraction_box = tk.Entry(self, textvariable=self.compound_3_mole_fraction)
         self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_3_mole_fraction_box.config(disabledbackground='white')
         self.compound_3_mole_fraction_box.config(disabledforeground='black')
-        self.compound_3_mole_fraction_box.grid(column=2, row=12, sticky="E")
+        self.compound_3_mole_fraction_box.grid(column=2, row=12, padx=5, pady=5, sticky="W")
 
         self.compound_4_mole_fraction = tk.StringVar(value="")
         self.compound_4_mole_fraction_box = tk.Entry(self, textvariable=self.compound_4_mole_fraction)
         self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_4_mole_fraction_box.config(disabledbackground='white')
         self.compound_4_mole_fraction_box.config(disabledforeground='black')
-        self.compound_4_mole_fraction_box.grid(column=2, row=13, sticky="E")
+        self.compound_4_mole_fraction_box.grid(column=2, row=13, padx=5, pady=5, sticky="W")
 
         self.compound_5_mole_fraction = tk.StringVar(value="")
         self.compound_5_mole_fraction_box = tk.Entry(self, textvariable=self.compound_5_mole_fraction)
         self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_5_mole_fraction_box.config(disabledbackground='white')
         self.compound_5_mole_fraction_box.config(disabledforeground='black')
-        self.compound_5_mole_fraction_box.grid(column=2, row=14, sticky="E")
+        self.compound_5_mole_fraction_box.grid(column=2, row=14, padx=5, pady=5, sticky="W")
 
         self.compound_6_mole_fraction = tk.StringVar(value="")
         self.compound_6_mole_fraction_box = tk.Entry(self, textvariable=self.compound_6_mole_fraction)
         self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
         self.compound_6_mole_fraction_box.config(disabledbackground='white')
         self.compound_6_mole_fraction_box.config(disabledforeground='black')
-        self.compound_6_mole_fraction_box.grid(column=2, row=15, sticky="E")
+        self.compound_6_mole_fraction_box.grid(column=2, row=15, padx=5, pady=5, sticky="W")
 
 # Mole fractions will be entered above boxes.
 
@@ -193,17 +195,16 @@ class PageTwo(tk.Frame):
         #self.temperature_box.config(state=tk.DISABLED)
         self.temperature_box.config(disabledbackground='white')
         self.temperature_box.config(disabledforeground='black')
-        self.temperature_box.grid(column=7, row=10, sticky="E")
+        self.temperature_box.grid(column=7, row=10, padx=5, pady=5)
 
         self.pressure = tk.StringVar(value="")
         self.pressure_box = tk.Entry(self, textvariable=self.pressure)
         # self.pressure_box.config(state=tk.DISABLED)
         self.pressure_box.config(disabledbackground='white')
         self.pressure_box.config(disabledforeground='black')
-        self.pressure_box.grid(column=8, row=10, sticky="E")
+        self.pressure_box.grid(column=8, row=10, padx=5, pady=5)
 
         self.selected_compound_list=[]
-        self.selected_compound_fractions_list=[]
         self.selected_compound_fractions_list=[]
         self.create_widgets()
 
@@ -234,25 +235,33 @@ class PageTwo(tk.Frame):
         #print(self.selected_compound_fractions_list)
 
     def calculator(self):
+        self.fractionget()
+
         self.R=8.3145
         self.fractionget()
         self.temperature_entered = self.temperature_box.get()
         self.pressure_entered = self.pressure_box.get()
+
+        numberOfCompunds = len(self.selected_compound_list)
         self.TC_List = list()
         self.TR_List = list()
         self.PC_List = list()
         self.w_List = list()
+        self.MW_List = list()
         for i in self.selected_compound_list:
             self.TC_List.append(self.pull_data(i, "Tc(K)"))
             self.PC_List.append(self.pull_data(i, "Pc(MPa)")*1.01325)
             self.w_List.append(self.pull_data(i, "w"))
+            self.MW_List.append(self.pull_data(i, "MW"))
             #self.TR_List.append(self.temperature_entered / self.TC_List[i])
 
-        print(self.TC_List)
-        print(self.PC_List)
-        print(self.w_List)
+        self.MW_overall = sum(self.MW_List)/numberOfCompunds
+        print(self.MW_overall)
+        #print(self.TC_List)
+        #print(self.PC_List)
+        #print(self.w_List)
 
-        numberOfCompunds = len(self.selected_compound_list)
+
         self.a_List = list()
         self.b_List = list()
         self.k_List = list()
@@ -266,8 +275,8 @@ class PageTwo(tk.Frame):
 
             self.b_List.append(0.07780*(self.R)*self.TC_List[i]/(self.PC_List[i]*100000))
 
-        print(self.a_List)
-        print(self.b_List)
+        #print(self.a_List)
+        #print(self.b_List)
 
 
 #PROBLEM STARTS HERE
@@ -281,22 +290,27 @@ class PageTwo(tk.Frame):
                                       float(self.selected_compound_fractions_list[j])*
                                       math.sqrt(float(self.a_List[i])*float(self.a_List[j])))
 
-        self.aM = sum(set(self.aMix_List))
-        self.bM = sum(set(self.bMix_List))
+        self.aM = sum(self.aMix_List)
+        self.bM = sum(self.bMix_List)
+        #print(self.selected_compound_fractions_list[0])
+        #print(self.selected_compound_fractions_list[1])
 
-        print(self.aM)
-        print(self.bM)
 
-        self.A = self.aM * float(self.pressure_entered) / ((self.R**2)*(float(self.temperature_entered)**2))
-        self.B = self.bM * float(self.pressure_entered) / (self.R * float(self.temperature_entered))
+        #print(self.aMix_List)
+        #print(self.bMix_List)
+        #print(self.aM)
+        #print(self.bM)
 
-        print(self.A)
-        print(self.B)
+        self.A = self.aM * float(self.pressure_entered) * 100000 / ((self.R*float(self.temperature_entered))**2)
+        self.B = self.bM * float(self.pressure_entered) * 100000 / (self.R * float(self.temperature_entered))
+
+        #print(self.A)
+        #print(self.B)
 
         self.z3coef = 1
         self.z2coef = -(1-self.B)
         self.z1coef = self.A - 2*self.B - 3*(self.B**2)
-        self.z0coef = -(self.A*self.B - 2*self.B - self.B**2)
+        self.z0coef = -(self.A*self.B - (self.B**3) - self.B**2)
 
         #p = P([self.z0coef, self.z1coef, self.z2coef, self.z3coef])
         p = [self.z3coef, self.z2coef, self.z1coef, self.z0coef]
@@ -304,9 +318,13 @@ class PageTwo(tk.Frame):
         #print(self.z2coef)
         #print(self.z1coef)
         #print(self.z0coef)
-        #roots=np.roots(p)
-        #print(roots)
-        #print(roots[~np.iscomplex(roots)])
+        roots=np.roots(p)
+        print(roots)
+        print(roots[~np.iscomplex(roots)])
+        MaxZ=max(roots[~np.iscomplex(roots)])
+        print(MaxZ)
+        density=MaxZ*self.R*float(self.temperature_entered)/float(self.pressure_entered)
+        print(density)
 
     def updateLabels(self):
 
@@ -484,11 +502,13 @@ class PageTwo(tk.Frame):
     def create_widgets(self):
         self.search_var = tk.StringVar()
         self.search_var.trace("w", lambda name, index, mode: self.update_list())
-        self.entry = tk.Entry(self, textvariable=self.search_var, width=13)
-        self.lbox = tk.Listbox(self, width=45, height=15)
+        self.entry = tk.Entry(self, textvariable=self.search_var, width=30)
+        self.lbox = tk.Listbox(self, width=56, height=15)
         self.lbox.bind('<Double-Button-1>', self.addOnDouble)
-        self.entry.grid(column=2, row=1, sticky="W")
-        self.lbox.grid(column=1, row=2, columnspan=5, rowspan=5, sticky="E")
+        self.entry.grid(column=2, row=1,columnspan=2, sticky="W")
+        self.lbox.grid(column=1, row=2, columnspan=3, rowspan=4, padx=5, pady=5)
+        label = tk.Label(self, text="Search :", width=8)
+        label.grid(column=1, row=1, sticky="ES")
 
         # Function for updating the list/doing the search.
         # It needs to be called here to populate the listbox.
