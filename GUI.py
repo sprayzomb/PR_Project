@@ -89,6 +89,11 @@ class PageTwo(tk.Frame):
         self.compound_box.bind('<Double-Button-1>', self.removeOnDouble)
         self.compound_box.grid(column=7, row=2, columnspan=3, rowspan=4, padx=5, pady=5, sticky="W")
 
+        self.yscroll = tk.Scrollbar(self, orient=tk.VERTICAL)  # new code
+        self.compound_box['yscrollcommand'] = self.yscroll.set
+        self.yscroll['command'] = self.compound_box.yview
+        self.yscroll.grid(row=2, column=9, rowspan=4, sticky='NSE', padx=5, pady=5)
+
         ttk.Separator(self, orient='horizontal').grid(column=1, row=8, columnspan=9, sticky='ew', padx=5, pady=5)
 
         label = tk.Label(self, text="Compound Name")
@@ -99,17 +104,21 @@ class PageTwo(tk.Frame):
         label.grid(column=7, row=9, sticky="W", padx=5, pady=1,)
         label = tk.Label(self, text="Pressure (bar)")
         label.grid(column=8, row=9, sticky="W", padx=5, pady=1,)
-        label = tk.Label(self, text="Density (kg/m^3)")
+
+        ttk.Separator(self, orient='horizontal').grid(column=6, row=11, columnspan=4, sticky='ew', padx=5, pady=5)
+        label = tk.Label(self, text="Results")
         label.grid(column=7, row=12, padx=5, pady=5, sticky="W")
-        label = tk.Label(self, text="Compressibility (Z)")
+        label = tk.Label(self, text="Density (kg/m^3)")
         label.grid(column=7, row=13, padx=5, pady=5, sticky="W")
+        label = tk.Label(self, text="Compressibility (Z)")
+        label.grid(column=7, row=14, padx=5, pady=5, sticky="W")
 
         self.Compressibility = tk.StringVar(value="")
         self.Compressibility_box = tk.Entry(self, textvariable=self.Compressibility)
         self.Compressibility_box.config(state=tk.DISABLED)
         #self.Compressibility_box.config(disabledbackground='white')
         self.Compressibility_box.config(disabledforeground='black')
-        self.Compressibility_box.grid(column=8, row=12, padx=5, pady=5, sticky="W")
+        self.Compressibility_box.grid(column=8, row=14, padx=5, pady=5, sticky="W")
 
         self.density = tk.StringVar(value="")
         self.density_box = tk.Entry(self, textvariable=self.density)
@@ -257,7 +266,6 @@ class PageTwo(tk.Frame):
         self.density_box.config(state=tk.NORMAL)
         self.density_box.delete(0, tk.END)
 
-
         self.R=8.3145
         self.fractionget()
         self.temperature_entered = self.temperature_box.get()
@@ -269,14 +277,17 @@ class PageTwo(tk.Frame):
         self.PC_List = list()
         self.w_List = list()
         self.MW_List = list()
+        self.MW_Fraction_List = list()
         for i in self.selected_compound_list:
             self.TC_List.append(self.pull_data(i, "Tc(K)"))
             self.PC_List.append(self.pull_data(i, "Pc(MPa)")*1.01325)
             self.w_List.append(self.pull_data(i, "w"))
             self.MW_List.append(self.pull_data(i, "MW"))
-            #self.TR_List.append(self.temperature_entered / self.TC_List[i])
 
-        self.MW_overall = sum(self.MW_List)/numberOfCompunds
+        self.MW_overall = 0
+        for i in range(0, numberOfCompunds):
+            a = float(self.MW_List[i]) * float(self.selected_compound_fractions_list[i])
+            self.MW_overall=self.MW_overall+a
 
         self.a_List = list()
         self.b_List = list()
@@ -322,12 +333,12 @@ class PageTwo(tk.Frame):
         print(roots[~np.iscomplex(roots)])
         self.MaxZ=max(roots[~np.iscomplex(roots)])
         print(self.MaxZ)
-        self.density=self.MW_overall/(1000*self.MaxZ*(self.R*10**-5)*float(self.temperature_entered)/float(self.pressure_entered))
-        print(self.density)
 
-        self.Compressibility_box.insert(0, "{0:.6g}".format(self.MaxZ))
+        self.Compressibility_box.insert(0, "{0:.6g}".format(self.MaxZ.real))
         self.Compressibility_box.config(state=tk.DISABLED)
-        self.density_box.insert(0, "{0:.5g}".format(self.density))
+        self.density = self.MW_overall / (
+        1000 * self.MaxZ * (self.R * 10 ** -5) * float(self.temperature_entered) / float(self.pressure_entered))
+        self.density_box.insert(0, "{0:.5g}".format(self.density.real))
         self.density_box.config(state=tk.DISABLED)
 
     def updateLabels(self):
