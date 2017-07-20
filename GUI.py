@@ -255,7 +255,7 @@ class PageTwo(tk.Frame):
     def createWrapper(self):
         self.updateLabels()
 
-    def fractionget(self):
+    def fractionGet(self):
         if len(self.selected_compound_list)>= 1:
             self.selected_compound_fractions_list.append(self.compound_1_mole_fraction_box.get())
 
@@ -274,15 +274,39 @@ class PageTwo(tk.Frame):
         if len(self.selected_compound_list) >= 6:
             self.selected_compound_fractions_list.append(self.compound_6_mole_fraction_box.get())
 
+        self.tempsum=0
+        for i in range(0, len(self.selected_compound_list)):
+            self.tempsum = self.tempsum + float(self.selected_compound_fractions_list[i])
+
+        for i in range(0, len(self.selected_compound_list)):
+            self.selected_compound_fractions_list[i] =  float(self.selected_compound_fractions_list[i])/self.tempsum
+
+        if len(self.selected_compound_list)>= 1:
+            self.compound_1_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[0]))
+
+        if len(self.selected_compound_list)>= 2:
+            self.compound_2_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[1]))
+
+        if len(self.selected_compound_list) >= 3:
+            self.compound_3_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[2]))
+
+        if len(self.selected_compound_list) >= 4:
+            self.compound_4_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[3]))
+
+        if len(self.selected_compound_list) >= 5:
+            self.compound_5_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[4]))
+
+        if len(self.selected_compound_list) >= 6:
+            self.compound_6_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[5]))
+
     def calculator(self):
-        self.fractionget()
+        self.fractionGet()
         self.Compressibility_box.config(state=tk.NORMAL)
         self.Compressibility_box.delete(0, tk.END)
         self.density_box.config(state=tk.NORMAL)
         self.density_box.delete(0, tk.END)
 
         self.R=8.3145
-        self.fractionget()
         self.temperature_entered = self.temperature_box.get()
         self.pressure_entered = self.pressure_box.get()
 
@@ -293,11 +317,13 @@ class PageTwo(tk.Frame):
         self.w_List = list()
         self.MW_List = list()
         self.MW_Fraction_List = list()
+        self.VC_List = list()
         for i in self.selected_compound_list:
             self.TC_List.append(self.pull_data(i, "Tc(K)"))
             self.PC_List.append(self.pull_data(i, "Pc(MPa)")*1.01325)
             self.w_List.append(self.pull_data(i, "w"))
             self.MW_List.append(self.pull_data(i, "MW"))
+            self.VC_List.append(self.pull_data(i, "Vc(cc/gmol)"))
 
         self.MW_overall = 0
         for i in range(0, numberOfCompunds):
@@ -308,6 +334,7 @@ class PageTwo(tk.Frame):
         self.b_List = list()
         self.k_List = list()
         self.alpha_List = list()
+
         for i in range(0, numberOfCompunds):
             self.k_List.append(0.37464 + 1.54226 * self.w_List[i] - 0.26992*self.w_List[i]**2)
 
@@ -317,16 +344,29 @@ class PageTwo(tk.Frame):
 
             self.b_List.append(0.07780*(self.R)*self.TC_List[i]/(self.PC_List[i]*100000))
 
-#PROBLEM STARTS HERE
+#for more information https://www.cheresources.com/invision/topic/26496-peng-robinson-bips-estimation-method-in-hysys/
+
+        self.Kij_Array = np.zeros((numberOfCompunds, numberOfCompunds))
+        for i in range(0, numberOfCompunds):
+            for j in range(0, numberOfCompunds):
+                if self.VC_List[i] == 0 or self.VC_List[j] == 0:
+                    self.Kij_Array[i, j] = 0
+                else:
+                    self.Kij_Array[i, j] = ( 1 -  ((8 * (self.VC_List[i]*self.VC_List[j])**(1/2)) /
+                        ((self.VC_List[i]**(1/3)+self.VC_List[j]**(1/3))**3)) )
+                self.Kij_Array[i, i] = 0
+
+        print(self.Kij_Array)
+
         self.aMix_List = list()
         self.bMix_List = list()
         for i in range(0, numberOfCompunds):
             self.bMix_List.append(float(self.selected_compound_fractions_list[i])*
                                   float(self.b_List[i]))
             for j in range(0, numberOfCompunds):
-                self.aMix_List.append(float(self.selected_compound_fractions_list[i])*
+                self.aMix_List.append((1-self.Kij_Array[i, j]) * (float(self.selected_compound_fractions_list[i])*
                                       float(self.selected_compound_fractions_list[j])*
-                                      math.sqrt(float(self.a_List[i])*float(self.a_List[j])))
+                                      math.sqrt(float(self.a_List[i])*float(self.a_List[j]))))
 
         self.aM = sum(self.aMix_List)
         self.bM = sum(self.bMix_List)
@@ -344,14 +384,14 @@ class PageTwo(tk.Frame):
 
         roots=np.roots(p)
         print(roots)
-        print(roots[~np.iscomplex(roots)])
+        #print(roots[~np.iscomplex(roots)])
         self.MaxZ=max(roots[~np.iscomplex(roots)])
-        print(self.MaxZ)
+        #print(self.MaxZ)
 
         self.Compressibility_box.insert(0, "{0:.6g}".format(self.MaxZ.real))
         self.Compressibility_box.config(state=tk.DISABLED)
-        self.density = self.MW_overall / (
-        1000 * self.MaxZ * (self.R * 10 ** -5) * float(self.temperature_entered) / float(self.pressure_entered))
+        self.density = self.MW_overall / (1000 * self.MaxZ * (self.R * 10 ** -5) *
+                                          float(self.temperature_entered) / float(self.pressure_entered))
         self.density_box.insert(0, "{0:.5g}".format(self.density.real))
         self.density_box.config(state=tk.DISABLED)
 

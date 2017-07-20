@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 filename = "proptable.csv"
 
@@ -11,3 +12,7 @@ def pull_data(name, column):
 
 name="METHANE"
 print(pull_data(name, "Tc(K)"))
+
+Kij_Array=np.zeros((2,3))
+print(Kij_Array[1,2])
+print(Kij_Array)
