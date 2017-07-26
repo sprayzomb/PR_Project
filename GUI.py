@@ -84,11 +84,11 @@ class PageTwo(tk.Frame):
     def buttonWidgets(self):
 
         self.addButton = ttk.Button(self, text="Add")
-                            #command=self.addOnDouble)
+
         self.addButton.grid(column=6, row=3, padx=5, pady=5)
 
         self.removeButton = ttk.Button(self, text="Remove")
-                            #command=self.removeWithButton)
+
         self.removeButton.grid(column=6, row=4, padx=5, pady=5)
 
         self.createButton = ttk.Button(self, text="Create", command=lambda: self.createWrapper())
@@ -185,6 +185,20 @@ class PageTwo(tk.Frame):
         self.compound_6_name_box.config(disabledbackground='white')
         self.compound_6_name_box.config(disabledforeground='black')
         self.compound_6_name_box.grid(column=1, row=15, padx=5, pady=5, sticky="W")
+
+        self.compound_7_name = tk.StringVar(value="")
+        self.compound_7_name_box = tk.Entry(self, textvariable=self.compound_7_name, width=25)
+        self.compound_7_name_box.config(state=tk.DISABLED)
+        self.compound_7_name_box.config(disabledbackground='white')
+        self.compound_7_name_box.config(disabledforeground='black')
+        self.compound_7_name_box.grid(column=1, row=16, padx=5, pady=5, sticky="W")
+
+        self.compound_8_name = tk.StringVar(value="")
+        self.compound_8_name_box = tk.Entry(self, textvariable=self.compound_8_name, width=25)
+        self.compound_8_name_box.config(state=tk.DISABLED)
+        self.compound_8_name_box.config(disabledbackground='white')
+        self.compound_8_name_box.config(disabledforeground='black')
+        self.compound_8_name_box.grid(column=1, row=17, padx=5, pady=5, sticky="W")
 # Compound names will be transfered above boxes.
 
     def compoundfractionWidgets(self):
@@ -231,6 +245,20 @@ class PageTwo(tk.Frame):
         self.compound_6_mole_fraction_box.config(disabledforeground='black')
         self.compound_6_mole_fraction_box.grid(column=2, row=15, pady=5, sticky="W")
 
+        self.compound_7_mole_fraction = tk.StringVar(value="")
+        self.compound_7_mole_fraction_box = tk.Entry(self, textvariable=self.compound_7_mole_fraction)
+        self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_7_mole_fraction_box.config(disabledbackground='white')
+        self.compound_7_mole_fraction_box.config(disabledforeground='black')
+        self.compound_7_mole_fraction_box.grid(column=2, row=16, pady=5, sticky="W")
+
+        self.compound_8_mole_fraction = tk.StringVar(value="")
+        self.compound_8_mole_fraction_box = tk.Entry(self, textvariable=self.compound_8_mole_fraction)
+        self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
+        self.compound_8_mole_fraction_box.config(disabledbackground='white')
+        self.compound_8_mole_fraction_box.config(disabledforeground='black')
+        self.compound_8_mole_fraction_box.grid(column=2, row=17, pady=5, sticky="W")
+
 # Mole fractions will be entered above boxes.
 
     def resultboxWidgets(self):
@@ -274,6 +302,12 @@ class PageTwo(tk.Frame):
         if len(self.selected_compound_list) >= 6:
             self.selected_compound_fractions_list.append(self.compound_6_mole_fraction_box.get())
 
+        if len(self.selected_compound_list) >= 7:
+            self.selected_compound_fractions_list.append(self.compound_7_mole_fraction_box.get())
+
+        if len(self.selected_compound_list) >= 8:
+            self.selected_compound_fractions_list.append(self.compound_8_mole_fraction_box.get())
+
         self.tempsum=0
         for i in range(0, len(self.selected_compound_list)):
             self.tempsum = self.tempsum + float(self.selected_compound_fractions_list[i])
@@ -298,6 +332,12 @@ class PageTwo(tk.Frame):
 
         if len(self.selected_compound_list) >= 6:
             self.compound_6_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[5]))
+
+        if len(self.selected_compound_list) >= 7:
+            self.compound_7_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[6]))
+
+        if len(self.selected_compound_list) >= 8:
+            self.compound_8_mole_fraction.set("{0:.5g}".format(self.selected_compound_fractions_list[7]))
 
     def calculator(self):
         self.fractionGet()
@@ -409,6 +449,12 @@ class PageTwo(tk.Frame):
         self.compound_5_name_box.delete(0, tk.END)
         self.compound_6_name_box.config(state=tk.NORMAL)
         self.compound_6_name_box.delete(0, tk.END)
+        self.compound_7_name_box.config(state=tk.NORMAL)
+        self.compound_7_name_box.delete(0, tk.END)
+        self.compound_8_name_box.config(state=tk.NORMAL)
+        self.compound_8_name_box.delete(0, tk.END)
+
+
         self.compound_1_mole_fraction_box.config(state=tk.NORMAL)
         self.compound_1_mole_fraction_box.delete(0, tk.END)
         self.compound_2_mole_fraction_box.config(state=tk.NORMAL)
@@ -421,9 +467,13 @@ class PageTwo(tk.Frame):
         self.compound_5_mole_fraction_box.delete(0, tk.END)
         self.compound_6_mole_fraction_box.config(state=tk.NORMAL)
         self.compound_6_mole_fraction_box.delete(0, tk.END)
-
+        self.compound_7_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_7_mole_fraction_box.delete(0, tk.END)
+        self.compound_8_mole_fraction_box.config(state=tk.NORMAL)
+        self.compound_8_mole_fraction_box.delete(0, tk.END)
 
         numberOfCompunds = len(self.selected_compound_list)
+
         if numberOfCompunds >= 1:
             #self.compound_1_name_box.config(state=tk.NORMAL)
             #self.compound_1_name_box.delete(0, tk.END)
@@ -449,18 +499,17 @@ class PageTwo(tk.Frame):
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 2:
-            #self.compound_2_name_box.config(state=tk.NORMAL)
-            #self.compound_2_name_box.delete(0, tk.END)
+
             self.compound_2_name_box.insert(0, self.selected_compound_list[1])
             self.compound_2_name_box.config(state=tk.DISABLED)
             self.compound_2_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_2_mole_fraction_box.delete(0, tk.END)
-            #self.name2 = self.compound_2_name_box.get()
-            #self.compund2_TC = self.pull_data(self.name2, "Tc(K)")
-            #self.compund2_PC = self.pull_data(self.name2, "Pc(MPa)")
-            #self.compund2_w = self.pull_data(self.name2, "w")
 
         else:
             self.compound_2_name_box.config(state=tk.DISABLED)
@@ -473,18 +522,18 @@ class PageTwo(tk.Frame):
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 3:
-            #self.compound_3_name_box.config(state=tk.NORMAL)
-            #self.compound_3_name_box.delete(0, tk.END)
+
             self.compound_3_name_box.insert(0, self.selected_compound_list[2])
             self.compound_3_name_box.config(state=tk.DISABLED)
             self.compound_3_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_3_mole_fraction_box.delete(0, tk.END)
-            #self.name3 = self.compound_3_name_box.get()
-            #self.compund3_TC = self.pull_data(self.name3, "Tc(K)")
-            #self.compund3_PC = self.pull_data(self.name3, "Pc(MPa)")
-            #self.compund3_w = self.pull_data(self.name3, "w")
+
         else:
             self.compound_3_name_box.config(state=tk.DISABLED)
             self.compound_3_mole_fraction_box.config(state=tk.DISABLED)
@@ -494,18 +543,18 @@ class PageTwo(tk.Frame):
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 4:
-            #self.compound_4_name_box.config(state=tk.NORMAL)
-            #self.compound_4_name_box.delete(0, tk.END)
+
             self.compound_4_name_box.insert(0, self.selected_compound_list[3])
             self.compound_4_name_box.config(state=tk.DISABLED)
             self.compound_4_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_4_mole_fraction_box.delete(0, tk.END)
-            #self.name4 = self.compound_4_name_box.get()
-            #self.compund4_TC = self.pull_data(self.name4, "Tc(K)")
-            #self.compund4_PC = self.pull_data(self.name4, "Pc(MPa)")
-            #self.compund4_w = self.pull_data(self.name4, "w")
+
         else:
             self.compound_4_name_box.config(state=tk.DISABLED)
             self.compound_4_mole_fraction_box.config(state=tk.DISABLED)
@@ -513,38 +562,66 @@ class PageTwo(tk.Frame):
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 5:
-            #self.compound_5_name_box.config(state=tk.NORMAL)
-            #self.compound_5_name_box.delete(0, tk.END)
+
             self.compound_5_name_box.insert(0, self.selected_compound_list[4])
             self.compound_5_name_box.config(state=tk.DISABLED)
             self.compound_5_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_5_mole_fraction_box.delete(0, tk.END)
-            #self.name5 = self.compound_1_name_box.get()
-            #self.compund5_TC = self.pull_data(self.name5, "Tc(K)")
-            #self.compund5_PC = self.pull_data(self.name5, "Pc(MPa)")
-            #self.compund5_w = self.pull_data(self.name5, "w")
+
         else:
             self.compound_5_name_box.config(state=tk.DISABLED)
             self.compound_5_mole_fraction_box.config(state=tk.DISABLED)
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
         if numberOfCompunds >= 6:
-            #self.compound_6_name_box.config(state=tk.NORMAL)
-            #self.compound_6_name_box.delete(0, tk.END)
+
             self.compound_6_name_box.insert(0, self.selected_compound_list[5])
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.NORMAL)
             self.compound_6_mole_fraction_box.delete(0, tk.END)
-            #self.name6 = self.compound_1_name_box.get()
-            #self.compund6_TC = self.pull_data(self.name6, "Tc(K)")
-            #self.compund6_PC = self.pull_data(self.name6, "Pc(MPa)")
-            #self.compund6_w = self.pull_data(self.name6, "w")
+
         else:
             self.compound_6_name_box.config(state=tk.DISABLED)
             self.compound_6_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
+
+        if numberOfCompunds >= 7:
+
+            self.compound_7_name_box.insert(0, self.selected_compound_list[6])
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_7_mole_fraction_box.delete(0, tk.END)
+
+        else:
+            self.compound_7_name_box.config(state=tk.DISABLED)
+            self.compound_7_mole_fraction_box.config(state=tk.DISABLED)
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
+
+        if numberOfCompunds >= 8:
+
+            self.compound_8_name_box.insert(0, self.selected_compound_list[7])
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.NORMAL)
+            self.compound_8_mole_fraction_box.delete(0, tk.END)
+
+        else:
+            self.compound_8_name_box.config(state=tk.DISABLED)
+            self.compound_8_mole_fraction_box.config(state=tk.DISABLED)
 
     def removeOnDouble(self,event):
         widget = event.widget
